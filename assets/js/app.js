@@ -1,8 +1,9 @@
+
 // set margins
 var margin = {top: 20, right: 20, bottom: 100, left: 100};
 
-var width = 800 - margin.left - margin.right;
-var height = 500 - margin.top - margin.bottom;
+var width = 900 - margin.left - margin.right;
+var height = 460 - margin.top - margin.bottom;
 
 // set x and y scale range
 var xScale = d3.scaleLinear().range([0, width]);
@@ -32,8 +33,8 @@ svg.append("text")
     .attr("x", width/2 -50)
     .attr("y", height + 35)
     .attr("style", "font-weight:bold")
-    .attr("data-axis-name", "Divorced_total_2014")
-    .text("Divorced rate (%)");
+    .attr("data-axis-name", "poverty")
+    .text("In Poverty (%)");
 // poverty rate 
 svg.append("text")
     .attr("class", "axis-text")
@@ -41,8 +42,8 @@ svg.append("text")
     .attr("x", width/2 -50)
     .attr("y", height + 55)
     .attr("style", "font-weight:bold")
-    .attr("data-axis-name", "Poverty_rate")
-    .text("Poverty rate (%)");
+    .attr("data-axis-name", "age")
+    .text("Age (Median)");
 // unemployment rate
 svg.append("text")
     .attr("class", "axis-text")
@@ -50,8 +51,8 @@ svg.append("text")
     .attr("x", width/2 -50)
     .attr("y", height + 75)
     .attr("style", "font-weight:bold")
-    .attr("data-axis-name", "Unemployment_rate")
-    .text("Unemployment rate (%)");
+    .attr("data-axis-name", "income")
+    .text("Household Income (Median)");
 
 // y axis title/label
 // depression rate
@@ -63,8 +64,8 @@ svg.append("text")
     .attr("y", -40)
     .attr("dy", ".71em")
     .attr("style", "font-weight:bold")
-    .attr("data-axis-name", "Depression_total_2014")
-    .text("Depression rate (%)");
+    .attr("data-axis-name", "healthcare")
+    .text("Lakhs Healthcare (%)");
 // physical activity
 svg.append("text")
     .attr("class", "axis-text")
@@ -74,19 +75,19 @@ svg.append("text")
     .attr("y", -60)
     .attr("dy", ".71em")
     .attr("style", "font-weight:bold")
-    .attr("data-axis-name", "Physical_activity")
-    .text("Physical Activity rate (%)");
+    .attr("data-axis-name", "smokes")
+    .text("Smokes (%)");
 //Dr visits within last year rate
 svg.append("text")
     .attr("class", "axis-text")
     .attr("id", "y")
     .attr("transform", "rotate(-90)")
-    .attr("x", -height/2 - 110)
+    .attr("x", -height/2 - 50)
     .attr("y", -80)
     .attr("dy", ".71em")
     .attr("style", "font-weight:bold")
-    .attr("data-axis-name", "Dr_visit_within_last_year")
-    .text("% who visited doctor within the last year");
+    .attr("data-axis-name", "obesity")
+    .text("Obese (%)");
 
 // pull in the data
 var csv_data = "Data/data.csv";
@@ -95,13 +96,13 @@ d3.csv(csv_data, function(error, data) {
     if (error) throw error;
 
     data.forEach(function(d){
-        // make into a number in case it comes in as string
-        d.Divorced_total_2014 = +d.Divorced_total_2014;
-        d.Depression_total_2014 = +d.Depression_total_2014;
-        d.Poverty_rate = +d.Poverty_rate;
-        d.Physical_activity = +d.Physical_activity;
-        d.Unemployment_rate = +d.Unemployment_rate;
-        d.Dr_visit_within_last_year = +d.Dr_visit_within_last_year;
+        // converting into a number in case it comes in as string
+        d.poverty = +d.poverty; 
+        d.age = +d.age;
+        d.income = +d.income;
+        d.obesity = +d.obesity;
+        d.smokes = +d.smokes;
+        d.healthcare = +d.healthcare;
     });
 
     /* Initialize tooltip */
@@ -198,8 +199,8 @@ d3.csv(csv_data, function(error, data) {
                 .attr("cy", function(d){
                     return yScale(d[y_data])
                 })
-                .attr("fill", "purple")
-                .style("opacity", 0.3);
+                .attr("fill", "blue")
+                .style("opacity", 0.4);
 
             // append text to each point
             // note: only appended tooltip to the text as it is more in the center of the scatter dot
@@ -217,8 +218,8 @@ d3.csv(csv_data, function(error, data) {
                     return yScale(d[y_data])+4;
                 })
                 .text(function(d){
-                    console.log(d.State);
-                    return d.State;
+                    console.log(d.abbr);
+                    return d.abbr;
                 })
                 .style("font-size", "10px")
                 .style("font-weight", "bold")
@@ -265,8 +266,8 @@ d3.csv(csv_data, function(error, data) {
                     return yScale(d[y_data])+4;
                 })
                 .text(function(d){
-                    console.log(d.State);
-                    return d.State;
+                    console.log(d.abbr);
+                    return d.abbr;
                 })
 
             // update the tooltip 
@@ -276,7 +277,7 @@ d3.csv(csv_data, function(error, data) {
 
         // function to handle mouse over event to update when an axis changes
         function handleMouseOver(d){
-            tip.show(d.state_ + "<hr>" + 
+            tip.show(d.state + "<hr>" + 
                 "X" + ": " + d[x_data] + "%"
                 + ", <br>" + "Y" + ": " + d[y_data] + "%");
         }
@@ -284,3 +285,5 @@ d3.csv(csv_data, function(error, data) {
     } // end plot_data function
 
 }); // end d3.csv 
+
+

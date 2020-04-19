@@ -1,6 +1,7 @@
 ## Web application is deployed at the following link:
 
-https://vpinnika.github.io/D3-challenge/.
+
+https://github.com/davalos70/D3-challenge.git
 
 ## Images
 
